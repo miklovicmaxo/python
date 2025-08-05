@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"Application to track financial investments"
+"Application to track financial investments using data from Google Finance"
 
 import os
 import json
@@ -248,7 +248,7 @@ if __name__ == "__main__":
     banner()
 
     parser.add_argument("-h", "--help", action="help", help="Show this help message and exit")
-    parser.add_argument("-p", "--post", nargs=1, help="Add new stock to portfolio by url")
+    parser.add_argument("-p", "--post", nargs=1, help="Add new stock to portfolio by Google Finance url")
     parser.add_argument("-d", "--del", nargs=1, type=int, help="Delele any value by a record id")
     parser.add_argument("-i", "--info", nargs=1, type=int, help="Get a description of record by a record id")
     parser.add_argument("-n", "--news", nargs=1, type=int, help="Get a record news by a record id")
