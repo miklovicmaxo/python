@@ -1,0 +1,88 @@
+#!/usr/bin/python3
+
+import os
+import argparse
+import string
+
+parser = argparse.ArgumentParser(add_help=True, prog="Caesar cipher", epilog="\u200B")
+letters = tuple(string.ascii_lowercase)
+numbers = tuple(string.digits)
+
+def print_output(orginal, new, count):
+    print(f"Original: {orginal}\nModified: {new}\n\nChars count: {count}")
+
+def banner():
+    os.system("clear")
+    print("Caesar cipher ~ Maxo")
+    print()
+
+
+def encode(data, num):
+    new_data = "".join(data).lower()
+    output = ""
+
+    for x in new_data:
+        if x in letters:
+
+            if (letters.index(x, 0, len(letters)) + num <= len(letters) - 1):
+                output+=letters[letters.index(x) + num]
+            else:
+                new_char_index = (letters.index(x, 0, len(letters)) + num) - len(letters)
+                output+=letters[new_char_index]
+
+        elif x in numbers:
+
+            if (numbers.index(x, 0, len(numbers)) + num <= len(numbers) - 1):
+                output+=numbers[numbers.index(x) + num]
+            else:
+                new_char_index = (numbers.index(x, 0, len(numbers)) + num) - len(numbers)
+                output+=numbers[new_char_index]
+        
+        else:
+            output+=x
+
+    print_output(data, output, len(data))
+
+def decode(data, num):
+    new_data = "".join(data).lower()
+    output = ""
+
+    for x in new_data:
+        if x in letters:
+
+            if (letters.index(x, 0, len(letters)) - num >= 0):
+                output+=letters[letters.index(x) - num]
+            else:
+                new_char_index = (letters.index(x, 0, len(letters)) - num) + len(letters)
+                output+=letters[new_char_index]
+
+        elif x in numbers:
+
+            if (numbers.index(x, 0, len(numbers)) - num >= 0):
+                output+=numbers[numbers.index(x) - num]
+            else:
+                new_char_index = (numbers.index(x, 0, len(numbers)) - num) + len(numbers)
+                output+=numbers[new_char_index]
+
+        else:
+            output+=x
+
+    print_output(data, output, len(data))
+    
+
+if __name__ == "__main__":
+    banner()
+
+    parser.add_argument("-d", '--data', nargs=1, type=str, help="Data for process", required=True)
+    parser.add_argument("-n", '--num', nargs=1, type=int, help="Shift each letter by a number", required=True)
+    parser.add_argument("-m", '--mode', nargs=1, type=int, help="Mode as encode(1)/decode(2)", required=True)
+    args = parser.parse_args()
+
+    if vars(args).get("num") and vars(args).get("data") and vars(args).get("mode"):
+        
+        if args.mode[0] == 1:
+            encode(args.data[0], args.num[0])
+        elif args.mode[0] == 2:
+            decode(args.data[0], args.num[0])
+        else:
+            print("Invalid mode format. Try --help to see all allowed options.")
